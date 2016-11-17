@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  * Hello world!
  */
 public class App {
-    private static final URI BASE_URI = URI.create("http://localhost:8080/base/");
+    private static final URI BASE_URI = URI.create("http://localhost:8080/");
 
     public static void main(String[] args) {
         try {
