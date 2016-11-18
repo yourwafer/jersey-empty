@@ -1,7 +1,9 @@
 package com.tw.study.jersey;
 
+import com.tw.study.jersey.config.SimpleClientRequestFilter;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import java.io.IOException;
@@ -14,22 +16,35 @@ import java.util.logging.Logger;
  */
 public class App {
     private static final URI BASE_URI = URI.create("http://localhost:8080/");
+    private static HttpServer server;
+
+    public static void start() throws IOException {
+        System.out.println("\"Hello World\" Jersey Example App");
+
+        final ResourceConfig resourceConfig = new ResourceConfig();
+        resourceConfig.packages("com.tw.study.jersey");
+        resourceConfig.property(LoggingFeature.LOGGING_FEATURE_LOGGER_LEVEL_SERVER, Level.SEVERE.getName());
+        resourceConfig.register(LoggingFeature.class);
+
+        server = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, resourceConfig, false);
+
+        server.start();
+
+    }
+
+    public static void stop(){
+        server.shutdown();
+    }
 
     public static void main(String[] args) {
         try {
-            System.out.println("\"Hello World\" Jersey Example App");
-
-            final ResourceConfig resourceConfig = new ResourceConfig();
-            resourceConfig.packages("com.tw.study.jersey");
-            final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(BASE_URI, resourceConfig, false);
+            start();
             Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
                 @Override
                 public void run() {
                     server.shutdownNow();
                 }
             }));
-            server.start();
-
             System.out.println(String.format("Application started.\nTry out %s\nStop the application using CTRL+C",
                     BASE_URI));
             Thread.currentThread().join();

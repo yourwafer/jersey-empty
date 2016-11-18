@@ -1,5 +1,7 @@
 package com.tw.study.jersey.endpoint.simple;
 
+import org.glassfish.grizzly.http.HttpRequestPacket;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
