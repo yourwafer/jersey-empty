@@ -1,0 +1,24 @@
+# Jersey 学习总结
+### 功能特点
+	1. 实现JAX-RS(javaee6提供Java API for RESTful Web Services)规范，定期的补充及发布；
+	2. 提供简介的方式完成RESTFull web service的请求和回应；
+
+### 与spring mvc（后简称MVC）对比
+	1. jersey同样提供DI，是由glassfish hk2实现，也就是说，如果想单独使用jersey一套，需要另外学习Bean容器；
+	2. MVC出发点即是WEB，但jersey出发点确实RESTFull，体现点在与接口的设计方面，如MVC返回复杂结构需要使用ModelAndView,而jersey仅仅需要返回一个流或者文件句柄；
+	3. jersey提供一种子资源的概念，这也是RESTFull中提倡所有url都是资源；
+	4. jersey直接提供application.wadl资源url说明；
+	5. MVC提供Session等状态管理，jersey没有，这个源自RESTFull设计无状态化；
+	6. Response方法支持更好返回结果，方便的返回Status，包括200，303，401，403；
+	7. 提供超级特别方便的方式访问RESTFull;
+### 技术内幕
+	1. 使用HK2包扫描，自动扫描包路径下的@Path，@Provider等；
+	2. 使用jdk spi 技术发现注册工具；
+	3. 同样提供嵌入方式启动App作为web服务的功能；
+	4. 自带spring插件功能，可以由spring管理bean；
+	5. Reactive方式的客户端访问api，其中包括RxJava,java8,guava,JSR-166e;
+		CompletionStage<Response> stage = RxCompletionStage.newClient()
+        .target("http://example.com/resource")
+        .request()
+        .rx()
+        .get();
