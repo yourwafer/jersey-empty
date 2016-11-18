@@ -1,5 +1,8 @@
 package com.tw.study.jersey.endpoint.simple;
 
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -13,7 +16,14 @@ import java.nio.file.Paths;
  * Created by hwwei on 2016/11/17.
  */
 @Path("file")
+@Component
 public class FileResource {
+
+    @PostConstruct
+    void post(){
+        System.out.println("******((((((((((((((((((((((((((((");
+
+    }
 
     @POST
     public File file(File file) throws IOException {
